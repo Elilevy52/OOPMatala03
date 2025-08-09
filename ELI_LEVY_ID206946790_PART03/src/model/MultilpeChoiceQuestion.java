@@ -2,58 +2,53 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
 public class MultilpeChoiceQuestion extends Question implements Serializable {
 
-	NewSet<MultipeChoiseAnswer> Answers = new NewSet<MultipeChoiseAnswer>();
-	private int answerNumber;
+        List<MultipeChoiseAnswer> answers = new ArrayList<MultipeChoiseAnswer>();
+        private int answerNumber;
 
 	public MultilpeChoiceQuestion(String question) {
 		super(question);
 		answerNumber = 0;
 	}
 
-	public String addAnswer(MultipeChoiseAnswer answer) {
-		for (int i = 0; i <= answerNumber; i++) {
-			if (Answers.contains(answer)) {
-				JOptionPane.showMessageDialog(null, answer + "Answer already exists");
-				return "Answer already exists";
-			}
-		}
-		answerNumber++;
-		if (answerNumber >= Answers.size()) {
-			Answers.add(answer);
-		}
-		return "Answer Added";
-	}
+        public String addAnswer(MultipeChoiseAnswer answer) {
+                if (answers.contains(answer)) {
+                        JOptionPane.showMessageDialog(null, answer + "Answer already exists");
+                        return "Answer already exists";
+                }
+                answers.add(answer);
+                answerNumber++;
+                return "Answer Added";
+        }
 
 	public void deleteAnswer(int index) {
-		if(Answers.isEmpty()) {
-			System.out.println("No answers currently in database.");
-		}
-		Answers.remove(Answers.get(index - 1));
-		answerNumber--;
-	}
-	public boolean deleteAnswerObject(MultipeChoiseAnswer aN) {
-		if(Answers.remove(aN)) {
-			answerNumber--;
-			return true;
-		} else {
-			return false;
-		}
+                if(answers.isEmpty()) {
+                        System.out.println("No answers currently in database.");
+                }
+                answers.remove(index - 1);
+                answerNumber--;
+        }
+        public boolean deleteAnswerObject(MultipeChoiseAnswer aN) {
+                if(answers.remove(aN)) {
+                        answerNumber--;
+                        return true;
+                } else {
+                        return false;
+                }
 		
 	}
 	public void updateAnswer(int index, String Answer) {
-		Answers.get(index - 1).setAnswer(Answer);
-	}
+                answers.get(index - 1).setAnswer(Answer);
+        }
 
-	public MultipeChoiseAnswer getAnswers(int index) {
-		return Answers.get(index);
-	}
+        public MultipeChoiseAnswer getAnswers(int index) {
+                return answers.get(index);
+        }
 
 	public int getAnswerNumber() {
 		return answerNumber;
@@ -67,12 +62,12 @@ public class MultilpeChoiceQuestion extends Question implements Serializable {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("[" + getId() + "] Multipe Choise Question: \n" + getQuestion() + "\n");
-		for (int i = 0; i < Answers.size(); i++) {
-			if (Answers.get(i) != null) {
-				sb.append("Answer number: [" + (i + 1) + "] " + Answers.get(i).toString());
-				sb.append("[Correct or not]: " + Answers.get(i).getIsTrue() + "\n");
-			}
-		}
+                for (int i = 0; i < answers.size(); i++) {
+                        if (answers.get(i) != null) {
+                                sb.append("Answer number: [" + (i + 1) + "] " + answers.get(i).toString());
+                                sb.append("[Correct or not]: " + answers.get(i).getIsTrue() + "\n");
+                        }
+                }
 		return sb.toString();
 	}
 }
